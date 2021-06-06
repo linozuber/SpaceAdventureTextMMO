@@ -36,9 +36,8 @@ class Serv(SimpleHTTPRequestHandler):
             if action == "status":
                 response = Response("Status ist ok", "")
 
-            if action.find("travel", 0, 6) != -1:
+            elif action.find("travel", 0, 6) != -1:
                 response = Response("Your Action: " + action, "")
-
 
             #Kein valider Command
             else:

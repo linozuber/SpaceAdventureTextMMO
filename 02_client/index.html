@@ -39,37 +39,40 @@
         border-style: solid;
       }
     </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
       var running = false;
+      var userId = 0;
+      var interaction = "";
 
       function pressEnter(event) {
         if (event.keyCode === 13) {
           processInput(commandline.value.toLowerCase());
           commandline.value = "";
         };
-      };
-      function processInput(input){
-        echo(input);
-        switch(input){
-          case "boot up":
-          case "start up":
-          case "start":
-            if (running){
-              echo("...<br>system is already running");
-            }else{
-              echo("...<br>system is now running");
-            }
-            this.running = true;
-            break;
-          case "assistant":
-
-          default:
-            break;
-        }
-      };
-      function echo(text){
-        panel.innerHTML = panel.innerHTML + "<br> your command: " + text;
       }
+
+      function echo(text){
+        panel.innerHTML = panel.innerHTML + "<br>" + text;
+      }
+
+      async function processInput(input){
+
+        echo("> " + input)
+        var result = await sendCommand(input);
+        echo(result.message);
+        if (result.interaction != ""){
+          interaction = result.interaction;
+        }
+      }
+
+      async function sendCommand(command) {
+        return axios.get('http://localhost:8080/' + userId + "/" + interaction + "/" + command)
+          .then((response) => {
+            return response.data;
+          });
+      }
+
     </script>
   </head>
   <body>

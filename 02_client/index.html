@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+      *{
+        box-sizing: border-box;
+        margin:0;
+        padding:0;
+        overflow-y: hidden;
+      }
+      html{
+        font-family: 'Source Code Pro', monospace;
+        color:white;
+        width: 100vw;
+        height: 100vh;
+        background-color: #2f2f2f;
+      }
+      #panel{
+        color:white;
+        position: fixed;
+        bottom:60px;
+        left:0;
+        margin: 25px 4%;
+        padding: 5px;
+      }
+      #commandline{
+        color:white;
+        position: fixed;
+        bottom:0;
+        margin: 25px 4%;
+        padding: 5px;
+        width: 92%;
+        background-color: #444444;
+        border-radius: 4px;
+        border-color: #666666;
+        border-style: solid;
+      }
+    </style>
+    <script type="text/javascript">
+      var running = false;
+
+      function pressEnter(event) {
+        if (event.keyCode === 13) {
+          processInput(commandline.value.toLowerCase());
+          commandline.value = "";
+        };
+      };
+      function processInput(input){
+        echo(input);
+        switch(input){
+          case "boot up":
+          case "start up":
+          case "start":
+            if (running){
+              echo("...<br>system is already running");
+            }else{
+              echo("...<br>system is now running");
+            }
+            this.running = true;
+            break;
+          case "assistant":
+
+          default:
+            break;
+        }
+      };
+      function echo(text){
+        panel.innerHTML = panel.innerHTML + "<br>" + text;
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <div id="panel">
+        asdasd
+      </div>
+      <input id="commandline" type="text" onkeyup="pressEnter(event)"></input>
+    </main>
+  </body>
+</html>

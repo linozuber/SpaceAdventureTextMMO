@@ -1,4 +1,7 @@
 class Account():
+    def __init__(self):
+        pass
+
     data = {
         "id": 0,
         "sector": {
@@ -9,4 +12,3 @@ class Account():
             "Nr": 0
         }
     }
-    pass

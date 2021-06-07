@@ -44,6 +44,8 @@ class Serv(BaseHTTPRequestHandler):
                 post_data = json.loads(self.rfile.read(
                     content_length).decode("utf-8"))
 
+                print(post_data);
+
                 reply = executeCommand(
                     post_data["userId"], post_data["interaction"], post_data["action"])
                 self.send_response(200, 'Good Stuff')
@@ -53,7 +55,7 @@ class Serv(BaseHTTPRequestHandler):
                     400, 'Bad Request: content type must be valid application/json')
                 reply = '400 Bad Request: content type must be valid application/json'
         except:
-            self.send_response(500, 'Internal Error: shit broke very hard.')
+            self.send_response(500, 'Internal Error: shit broke very hard.') #code is killing me softly xD
             reply = "Error"
         finally:
             self.do_OPTIONS()
@@ -83,15 +85,32 @@ def executeCommand(_userId, _interaction, _action):
 
         # travel 5:5
         elif action.find("travel", 0, 6) != -1:
-            print(action)
 
-            #  "%20" does not longer exist, as it it is clean json now. JSON does not have this shit anly loger
-            # this results in a "list index out of range" error. PLS FIX.
-            xy = action.split("%20")[1]
-            player.data["sector"]["x"] = int(xy.split(":")[0])
-            player.data["sector"]["y"] = int(xy.split(":")[1])
-            response = Response("Your Action: " + action)
-            print(player.data)
+            # this results in a "list index out of range" error. PLS FIX. <-- I LOVE IT
+            # >> tried to catch any unexpected input
+            # >> we can now handle lots of separator-characters :/-_.;¦|,
+            xy = action.split(" ")[1]
+            separator = ""
+
+            #looping for x characters through characters > this is anything but nicely readable code
+            #searching for a valid seperator character to split x and y coordinates
+            for char in ":/-_.;¦|,":
+                for _char in xy:
+                    if char == _char:
+                        separator = char
+                        break
+                if separator != "":
+                    break
+
+            if separator != "" and len(xy.split(separator)) == 2:
+                _x = xy.split(separator)[0]
+                _y = xy.split(separator)[1]
+                response = Response("You reach sector " + _x + ", " + _y)
+                #changing game state > seems to wirk fine
+                player.data["sector"]["x"] = _x
+                player.data["sector"]["y"] = _y
+            else:
+                response = Response("Command unknwon")
 
         # Kein valider Command
         else:

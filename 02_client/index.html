@@ -48,8 +48,8 @@
     </main>
     <script type="text/javascript">
       var running = false;
-      var userId = 0;
-      var interaction = "";
+      var playerId = 0;
+      var currentInteraction = "";
 
       function pressEnter(event) {
         if (event.keyCode === 13) {
@@ -73,7 +73,7 @@
       }
 
       async function sendCommand(command) {
-        var payload = { userId: "", interaction: "", action: command };
+        var payload = { userId: playerId, interaction: currentInteraction, action: command };
 
         return axios({
           method: "post",
@@ -86,6 +86,7 @@
           return response.data;
         });
       }
+
     </script>
   </body>
 </html>

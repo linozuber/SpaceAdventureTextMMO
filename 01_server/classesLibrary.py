@@ -12,3 +12,15 @@ class Account():
             "Nr": 0
         }
     }
+
+class Ship():
+    def __init__(self):
+
+    data = {
+        "id" : 0,
+        "owner" : 0,
+        "fuelCapacity" : 10,
+        "fuelCurrent" : 10,
+        "cargoCapacity" : 12,
+        "cargo" : {},
+    }

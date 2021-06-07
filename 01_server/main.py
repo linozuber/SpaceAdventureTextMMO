@@ -1,7 +1,6 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from account import Account
 import json
-import urllib.parse
 
 
 hostName = "localhost"
